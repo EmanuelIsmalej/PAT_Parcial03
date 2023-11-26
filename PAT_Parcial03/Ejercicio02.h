@@ -13,4 +13,3 @@ class Ejercicio02
 public:
 	vector<string>* findRepeatedDnaSequences(Node<char>* head);
 };
-
