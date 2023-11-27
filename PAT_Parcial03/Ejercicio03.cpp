@@ -1,25 +1,37 @@
 #include "Ejercicio03.h"
 
 TimeMap::TimeMap() {
-    // Constructor
+    // Constructor vacío
 }
 
 void TimeMap::set(string key, string value, int timestamp) {
-    // Almacena la clave y el valor con su timestamp
     data[key].emplace_back(timestamp, value);
 }
 
 string TimeMap::get(string key, int timestamp) {
     if (data.find(key) == data.end()) {
-        return ""; // Clave no encontrada
+        return ""; // Si la clave no existe, devuelve una cadena vacía
     }
 
-    // Buscar el valor más reciente para la clave en o antes del timestamp dado
-    const auto& values = data[key];
-    for (int i = values.size() - 1; i >= 0; --i) {
-        if (values[i].first <= timestamp) {
-            return values[i].second;
+    const auto& entries = data[key];
+    int low = 0, high = entries.size() - 1, mid;
+
+    while (low <= high) {
+        mid = low + (high - low) / 2;
+        if (entries[mid].first == timestamp) {
+            return entries[mid].second; // Coincidencia exacta
+        }
+        else if (entries[mid].first < timestamp) {
+            low = mid + 1;
+        }
+        else {
+            high = mid - 1;
         }
     }
-    return ""; // No hay valores previos al timestamp dado
+
+    if (high >= 0) {
+        return entries[high].second; // El más cercano y menor o igual al timestamp
+    }
+
+    return ""; // No hay valores para el timestamp dado
 }

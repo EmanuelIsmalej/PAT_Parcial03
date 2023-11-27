@@ -18,4 +18,3 @@ public:
 private:
     map<string, vector<pair<int, string>>> data;
 };
-
